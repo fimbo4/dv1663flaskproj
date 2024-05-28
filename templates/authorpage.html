@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block body %}
+<form method="POST" action="/goback"> 
+    <button type="submit">Go back</button> 
+</form> 
+<h1>Author Name: {{data}}</h1>
+<h2>Books by this author:</h2>
+{{data2|safe}}
+{%endblock%}

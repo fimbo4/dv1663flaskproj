@@ -30,4 +30,15 @@ def auth_list(db_auths):
 def user_list():
     pass
 
+def get_authors_books(auth_info):
+    auth_list = """<table>
+    <tr>
+      <th>Title</th>
+    </tr>"""
+    for book in auth_info:
+        print(str(book[0]))
+        auth_list += """<tr><td>""" + str(book[0]) + """</td></tr>"""
+    auth_list += "</table>"
+    return auth_list
+
 #"""<form method="POST" action="/auth_param/""" + str(auth[0]) + ">"

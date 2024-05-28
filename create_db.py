@@ -84,6 +84,14 @@ def search_authors(auth_info):
         out_data.append(author)
     return out_data
 
+def get_auth_info(auth_param):
+    query = "SELECT books.title FROM books JOIN author ON books.authorName = author.authorName WHERE author.authorName = '" + auth_param + "';"
+    my_cursor.execute(query)
+    out_data = []
+    for q in my_cursor:
+        out_data.append(q)
+    return out_data
+
 # def num_of_favs():
 #     my_cursor.execute(  """SELECT Books.title, Count(accounts.favouriteBook) as numberOfFavourites
 #                         FROM Books

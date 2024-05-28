@@ -95,8 +95,9 @@ def param(val):
     
 @app.route("/auth_param/<val>", methods=['POST', 'GET'])
 def auth_param(val):
-    print(val)
-    return '', 204
+    #print(val)
+    auth_data = db.get_auth_info(val)
+    return render_template("authorpage.html", data = val, data2 = sf.get_authors_books(auth_data))
 
 @app.route("/goback", methods=['POST', 'GET'])
 def goback():
