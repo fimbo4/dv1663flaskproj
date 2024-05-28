@@ -63,7 +63,7 @@ def get_books(search_input):#change this into a procedure call
     return out_data
 
 def add_fav_book(book_name, uid):
-    query = "UPDATE accounts SET favouriteBook = '" + book_name + "' WHERE id = '" + uid + "';" 
+    query = "CALL addfavbook('" + book_name + "'" + ', ' + uid + ");"
     my_cursor.execute(query)
     mydb.commit()
 
