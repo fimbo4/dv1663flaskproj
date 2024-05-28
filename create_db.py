@@ -92,6 +92,14 @@ def get_auth_info(auth_param):
         out_data.append(q)
     return out_data
 
+def search_users(user_info):
+    query = "SELECT userName, FavouriteBook FROM accounts WHERE userName LIKE '%" + user_info + "%';"
+    my_cursor.execute(query)
+    out_data = []
+    for user in my_cursor:
+        out_data.append(user)
+    return out_data
+
 # def num_of_favs():
 #     my_cursor.execute(  """SELECT Books.title, Count(accounts.favouriteBook) as numberOfFavourites
 #                         FROM Books

@@ -126,6 +126,12 @@ def authlist():
     table_data = sf.auth_list(db_auths)
     return render_template('searchauthors.html', data = table_data)
 
+@app.route('/userlist', methods=['POST', 'GET'])
+def userlist():
+    user_att = request.form['user_att']
+    db_users = db.search_users(user_att)
+    table_data = sf.user_list(db_users)
+    return render_template('searchusers.html', data = table_data)
 
 if __name__ == "__main__":
     app.run(debug=True)

@@ -41,4 +41,16 @@ def get_authors_books(auth_info):
     auth_list += "</table>"
     return auth_list
 
+def user_list(db_users):
+    user_list = """<table>
+    <tr>
+      <th>Username</th>
+      <th>Favourite Book</th>
+    </tr>
+  """
+
+    for user in db_users:
+        user_list += """<tr><td>""" + str(user[0]) + """</td><td>""" + str(user[1]) + "</td></tr>"
+    return user_list
+
 #"""<form method="POST" action="/auth_param/""" + str(auth[0]) + ">"
