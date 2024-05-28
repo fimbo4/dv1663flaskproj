@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+
+{% block head %}
+{%endblock%}
+
+
+{% block body %}
+
+<div class="header">
+
+    <div class="retbooks">
+        <form method="POST" action="/booklist"> 
+            <label for="book_att">Enter Title, Author, or ISBN:</label>
+            <input type="text" id="book_att" name="book_att">
+            <button type="submit">Search</button> 
+        </form> 
+    </div>
+    <div class="return">
+        <form method="POST" action="/goback"> 
+            <button type="submit">Go back</button> 
+        </form> 
+    </div>
+</div>
+{{data|safe}}
+
+{%endblock%}

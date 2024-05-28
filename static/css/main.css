@@ -1,0 +1,70 @@
+body{
+    margin: 0;
+    font-family: sans-serif;
+}
+
+.log{
+    float: left;
+
+}
+
+.sign{
+    float: left;
+    margin-left: 1%;
+}
+
+.addbook{
+    margin-left: 40%;
+}
+
+.searchbook{
+    margin-left: 57%;
+    margin-top: -1%;
+}
+
+.header{
+    background-color: blue;
+    color: white;
+}
+
+.logo{
+    display: block;
+    margin-top: auto;
+    margin-left: auto;
+    margin-right: auto;
+    align-items: center;
+    width: 10%;
+}
+
+.main_body{
+   text-align: center;
+}
+
+.homeheader{
+    background-color: blue;
+    color: white;
+}
+
+.logform{
+    float: left;
+}
+
+.summin{
+    margin-left: 5%;
+    margin-top: -1%; /* seems to be the only think to be able to force these elements to stay in place */
+}
+
+.return{
+    margin-left: 24%;
+    margin-top: -1.1%;
+}
+
+.addbook2{
+    margin-left: 8%;
+    margin-top: -2%;
+}
+
+.searchbook2{
+    margin-left: 25%;
+    margin-top: -1%;   
+}

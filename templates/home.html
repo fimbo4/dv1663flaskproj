@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+
+{% block head %}
+{%endblock%}
+
+
+{% block body %}
+<div class="header">
+    <div class="logform">
+<form method="POST" action="/logout"> 
+    <button type="submit">Log out</button> 
+</form>
+</div>
+<div class="summin">
+<h3>{{data2}}</h3>
+</div>
+<div class="addbook2">
+    <form>
+      <label for="gotoaddbook">Want to add books to our library?</label>
+      <a href="{{url_for('gotoaddbook')}}"><button type="button">Click here!</button></a>
+    </form>
+  </div>
+  
+  <div class="searchbook2">
+    <form>
+      <label for="gotosearchbook">Want to see the books in our library?</label>
+      <a href="{{url_for('booksearch')}}"><button type="button">Click here!</button></a>
+    </form>
+  </div>
+
+  <div class="searchauth">
+    <form>
+      <label for="searchauth">Search for authors:</label>
+      <a href="{{url_for('searchauthor')}}"><button type="button">Search authors</button></a>
+    </form>
+  </div>
+  
+  <div class="searchuser">
+    <form>
+      <label for="searchuser">Search for users:</label>
+      <a href="{{url_for('searchuser')}}"><button type="button">Search users</button></a>
+    </form>
+  </div>
+</div>
+<!-- {{data|safe}}
+{{data2|safe}} -->
+<h1>Favorite book:</h1>
+<h1>{{data3}} by <a href="">{{data4}}</button></a></h1>
+{%endblock%}

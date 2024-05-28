@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+
+{% block head %}
+{%endblock%}
+
+
+{% block body %}
+<form method="POST" action="/create"> 
+    <label for="lname">Create username:</label><br>
+    <input type="text" id="create_uname" name="create_uname">
+    <br>
+    <label for="fname">Create password:</label><br>
+    <input type="text" id="create_pass" name="create_pass"><br>
+    <button type="submit">Create account!</button> 
+</form> 
+{%endblock%}

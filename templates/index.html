@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+
+
+{% block head %}
+{%endblock%}
+
+
+{% block body %}
+
+<div class="header">
+
+  <div class="log">
+<form method="POST" action="/login"> 
+    <label for="lname">Username:</label>
+    <input type="text" id="uname" name="uname">
+
+    <label for="fname">Password:</label>
+    <input type="text" id="pass" name="pass">
+    <button type="submit">Log in</button> 
+</form> 
+</div>
+
+<div class="sign">
+  <form >
+    <label for="noacc">No account?</label>
+    <a href="{{url_for('signup')}}"><button type="button">Sign up</button></a>
+  </form>
+</div>
+
+<div class="addbook">
+  <form>
+    <label for="gotoaddbook">Want to add books to our library?</label>
+    <a href="{{url_for('gotoaddbook')}}"><button type="button">Click here!</button></a>
+  </form>
+</div>
+
+<div class="searchbook">
+  <form>
+    <label for="gotosearchbook">Want to see the books in our library?</label>
+    <a href="{{url_for('booksearch')}}"><button type="button">Click here!</button></a>
+  </form>
+</div>
+
+<div class="searchauth">
+  <form>
+    <label for="searchauth">Search for authors:</label>
+    <a href="{{url_for('searchauthor')}}"><button type="button">Search authors</button></a>
+  </form>
+</div>
+
+<div class="searchuser">
+  <form>
+    <label for="searchuser">Search for users:</label>
+    <a href="{{url_for('searchuser')}}"><button type="button">Search users</button></a>
+  </form>
+</div>
+
+</div>
+
+<div class="main_body">
+
+  <div class="logo">
+    <img src="{{url_for('static', filename='cool_books_logo.png')}}" alt="" width="300%" height="300%">
+    <h1>Cool books</h1>
+    Catalogue and share cool books with friends!
+  </div>
+  </div>
+
+</div>
+
+{%endblock%}
