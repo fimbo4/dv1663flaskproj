@@ -1,7 +1,7 @@
 CREATE DATABASE Bookdatabase;
 
 use Bookdatabase;
-
+SET SQL_SAFE_UPDATES = 0;
 create table author(au_id INT PRIMARY KEY AUTO_INCREMENT, authorName VARCHAR(100), biography VARCHAR(10000), theirBooks VARCHAR(2999));
 
 create table books(title VARCHAR(100), au_id INT, authorName VARCHAR(100), isbn  VARCHAR(20) PRIMARY KEY, FOREIGN KEY (au_id) REFERENCES author(au_id));
@@ -72,7 +72,42 @@ SELECT 'acc35', 'pass1'
 WHERE 'acc35' NOT IN (SELECT userName FROM accounts);
 
 SELECT * FROM accounts;
+SELECT * FROM author;
+SELECT * FROM books;
 
 INSERT INTO accounts(userName, passwrd) 
 SELECT 'uname', 'pass' 
 WHERE 'uname' NOT IN (SELECT userName FROM accounts);
+
+SELECT Books.title, Count(accounts.favouriteBook) as numberOfFavourites
+FROM Books
+CROSS JOIN accounts
+WHERE Books.title = accounts.favouriteBook
+GROUP BY books.title;
+
+UPDATE accounts SET favouriteBook = 'blood meridian' WHERE userName = 'test'; 
+
+CREATE PROCEDURE booksearch(IN book_att VARCHAR(100))
+SELECT * FROM books LEFT JOIN (SELECT Books.title, Count(accounts.favouriteBook) as numberOfFavourites
+FROM Books
+CROSS JOIN accounts
+WHERE Books.title = accounts.favouriteBook
+GROUP BY books.title) AS favbooks ON favbooks.title = books.title WHERE books.title LIKE '%%' OR books.authorName LIKE '%%' OR books.isbn LIKE '%%';
+
+SELECT favouriteBook, books.authorName FROM books JOIN accounts ON books.authorName = favouriteBook WHERE accounts.id = 60 ;
+SELECT favouriteBook, books.authorName FROM accounts JOIN books ON accounts.favouriteBook = books.title WHERE id = 60;
+
+SELECT authorName FROM author WHERE authorName LIKE '%a%';
+
+SELECT * FROM accounts;
+
+DELIMITER $$
+CREATE PROCEDURE addfavbook(IN bookname VARCHAR(255), uid INT)
+BEGIN 
+UPDATE accounts SET favouriteBook = bookname WHERE id = uid;
+END $$
+DELIMITER ;
+
+CALL addfavbook('The Way Of Kings', 43);
+
+SELECT * FROM accounts;
