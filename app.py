@@ -1,5 +1,5 @@
 from flask import Flask, render_template, url_for, request
-from flask_sqlalchemy import SQLAlchemy
+#from flask_sqlalchemy import SQLAlchemy
 import create_db as db
 import search_formatter as sf
 from hashlib import sha256
@@ -109,7 +109,10 @@ def goback():
     elif session_id != -1:
         print("true")
         out = '<a href="">asda</a>'
-        return render_template("home.html", data = out, data2 = session_id, data3 = db.my_fav(str(session_id))[0][0], data4 = db.my_fav(str(session_id))[0][1])
+        if len(db.my_fav(str(session_id))) != 0:
+            return render_template("home.html", data = out, data2 = session_id, data3 = db.my_fav(str(session_id))[0][0], data4 = db.my_fav(str(session_id))[0][1])
+        else:
+            return render_template("home.html", data = out, data2 = session_id)
 
 @app.route('/searchauthor', methods=['POST', 'GET'])
 def searchauthor():
