@@ -100,6 +100,17 @@ def search_users(user_info):
         out_data.append(user)
     return out_data
 
+def search_user_page(user_info):#new
+    query = "SELECT userName, id FROM accounts WHERE userName LIKE '%" + user_info + "%';"
+    my_cursor.execute(query)
+    out_data = []
+    for user in my_cursor:
+        print(user)
+        out_data.append(user)
+    return out_data
+  
+
+
 # def num_of_favs():
 #     my_cursor.execute(  """SELECT Books.title, Count(accounts.favouriteBook) as numberOfFavourites
 #                         FROM Books

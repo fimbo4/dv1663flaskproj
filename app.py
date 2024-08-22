@@ -99,6 +99,10 @@ def auth_param(val):
     auth_data = db.get_auth_info(val)
     return render_template("authorpage.html", data = val, data2 = sf.get_authors_books(auth_data))
 
+@app.route("/user_profile_param/<val>", methods=['POST', 'GET'])#new
+def user_profile_param(val):
+    return render_template("public_profile.html", data = val)
+
 @app.route("/goback", methods=['POST', 'GET'])
 def goback():
     global session_id
@@ -132,7 +136,7 @@ def authlist():
 @app.route('/userlist', methods=['POST', 'GET'])
 def userlist():
     user_att = request.form['user_att']
-    db_users = db.search_users(user_att)
+    db_users = db.search_user_page(user_att)
     table_data = sf.user_list(db_users)
     return render_template('searchusers.html', data = table_data)
 
