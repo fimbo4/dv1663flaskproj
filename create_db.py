@@ -46,19 +46,20 @@ def get_id(uname):
     
 def addBook(title, author, isbn):
     query = "INSERT INTO Books(title, authorName, isbn) VALUES (" + "'"+ title +"',"+"'"+  author + "'," +"'"+  isbn+"');"
-    print(query)
+    #print(query)
     my_cursor.execute(query)
     mydb.commit()
 
 def get_books(search_input):#change this into a procedure call
-    query = """SELECT * FROM books LEFT JOIN (SELECT Books.title, Count(accounts.favouriteBook) as numberOfFavourites
+    query = """SELECT * FROM books LEFT JOIN (SELECT Books.title, COUNT(favbooks.isbn) as numberOfFavourites
     FROM Books
-    CROSS JOIN accounts
-    WHERE Books.title = accounts.favouriteBook
-    GROUP BY books.title) AS favbooks ON favbooks.title = books.title WHERE books.title LIKE '%""" + search_input + "%' OR books.authorName LIKE '%" + search_input + "%' OR books.isbn LIKE '%" + search_input + "%';" 
+    CROSS JOIN favbooks
+    WHERE Books.isbn = favbooks.isbn
+    GROUP BY books.isbn) AS favbooks ON favbooks.title = books.title WHERE books.title LIKE '%""" + search_input + "%' OR books.authorName LIKE '%" + search_input + "%' OR books.isbn LIKE '%" + search_input + "%';" 
     my_cursor.execute(query)
     out_data = []
     for book in my_cursor:
+        print(book)
         out_data.append(book)
     return out_data
 
@@ -66,6 +67,31 @@ def add_fav_book(book_name, uid):
     query = "CALL addfavbook('" + book_name + "'" + ', ' + uid + ");"
     my_cursor.execute(query)
     mydb.commit()
+
+def addtofavs(uid, isbn):
+    query = "CALL addtofavs('" + uid + "'" + ', ' + '"' + isbn + '"' + ");"
+    my_cursor.execute(query)
+    mydb.commit()
+
+def get_book_info(isbn):
+    query = ""
+
+def get_users_fav_books(uid):
+    query = "SELECT * FROM books JOIN favbooks ON books.isbn = favbooks.isbn WHERE favbooks.id = " + uid + ";"
+    my_cursor.execute(query)
+    out_data = []
+    for book in my_cursor:
+        out_data.append(book)
+    return out_data
+
+
+def book_count(isbn):
+    query = "SELECT COUNT(isbn) FROM favbooks WHERE isbn = '" + isbn + "';"
+    my_cursor.execute(query)
+    out_data = []
+    for count in my_cursor:
+        out_data.append(count)
+    return out_data[0][0]
 
 def my_fav(uid):
     query = "SELECT favouriteBook, books.authorName FROM accounts JOIN books ON accounts.favouriteBook = books.title WHERE id =" + uid + ";"
@@ -105,11 +131,16 @@ def search_user_page(user_info):#new
     my_cursor.execute(query)
     out_data = []
     for user in my_cursor:
-        print(user)
         out_data.append(user)
     return out_data
   
-
+def get_username(id):
+    query = "SELECT userName FROM accounts where id  = " + id + ";"
+    my_cursor.execute(query)
+    out_data = []
+    for uname in my_cursor:
+        out_data.append(uname)
+    return out_data[0][0]
 
 # def num_of_favs():
 #     my_cursor.execute(  """SELECT Books.title, Count(accounts.favouriteBook) as numberOfFavourites

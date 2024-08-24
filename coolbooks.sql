@@ -8,9 +8,11 @@ create table books(title VARCHAR(100), au_id INT, authorName VARCHAR(100), isbn 
 
 create table accounts(id INT PRIMARY KEY AUTO_INCREMENT, userName varchar(100), passwrd varchar(10000), favouriteBook varchar(100));
 
+create table favbooks(id INT, isbn VARCHAR(20), FOREIGN KEY (id) REFERENCES accounts(id), FOREIGN KEY (isbn) REFERENCES books(isbn));
+
 INSERT INTO books(title, authorName, isbn)
 VALUES 
-	("Harry Potter and the philosophers stone", "JK.Rowling", "0000000"),
+	("Harry Potter and the philosophers stone", "JK. Rowling", "0000000"),
     ("Harry Potter and the half-blood prince", "JK. Rowling", "0000002"),
     ("The Way Of Kings", "B.Sanderson", "0000001"),
     ("Stranger in a Strange Land", "Robert A. Heinlein", "0441788386"),
@@ -71,6 +73,8 @@ INSERT INTO accounts(userName, passwrd)
 SELECT 'acc35', 'pass1'
 WHERE 'acc35' NOT IN (SELECT userName FROM accounts);
 
+INSERT INTO favbooks(id, isbn) SELECT 70, '0000000';
+
 SELECT * FROM accounts;
 SELECT * FROM author;
 SELECT * FROM books;
@@ -108,6 +112,29 @@ UPDATE accounts SET favouriteBook = bookname WHERE id = uid;
 END $$
 DELIMITER ;
 
+DELIMITER $$
+CREATE PROCEDURE addtofavs(IN uid INT, isbn VARCHAR(20))
+BEGIN 
+INSERT INTO favbooks(id, isbn) VALUES (uid, isbn);
+END $$
+DELIMITER ;
+
 CALL addfavbook('The Way Of Kings', 43);
 
 SELECT * FROM accounts;
+
+SELECT books.title FROM books JOIN author ON books.authorName = author.authorName WHERE author.authorName = 'cormac';
+
+SELECT * FROM favbooks;
+SELECT * FROM books;
+SELECT * FROM accounts;
+
+
+
+CALL addtofavs(1, "0000002");
+SELECT * FROM favbooks;
+SELECT isbn, COUNT(isbn) FROM favbooks group by isbn;
+
+SELECT * FROM books WHERE isbn = "9292929292";
+
+SELECT * FROM books JOIN favbooks ON books.isbn = favbooks.isbn WHERE favbooks.id = 9;

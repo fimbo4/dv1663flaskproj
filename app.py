@@ -33,10 +33,10 @@ def login():
         session_id = db.get_id(uname)
     else:#feels unnecesarry but crashes without
         session_id = -1
-    print(session_id)
+    #print(session_id)
     profile_rend()
     out = '<a href="">asda</a>'
-    print(db.my_fav(str(session_id)))
+    #print(db.my_fav(str(session_id)))
     if len(db.my_fav(str(session_id))) != 0:
         return render_template("home.html", data = out, data2 = session_id, data3 = db.my_fav(str(session_id))[0][0], data4 = db.my_fav(str(session_id))[0][1])
     else:
@@ -60,37 +60,38 @@ def addbook():
 @app.route("/logout", methods=['POST'])
 def logout():
     global session_id
-    print(session_id)
+    #print(session_id)
     session_id = -1
     return render_template("index.html")
 
 @app.route("/rend", methods=['POST'])
 def profile_rend():
-    print(type("""<a href="">asda</a>"""))
+    #print(type("""<a href="">asda</a>"""))
+    pass
 
 @app.route("/booksearch", methods=['POST', 'GET'])
 def booksearch():
     global session_id
-    print(session_id)
+    #print(session_id)
     return render_template("booksearch.html")
 
 @app.route("/booklist", methods=['POST', 'GET'])
 def booklist():
-    print(session_id)
+    #print(session_id)
     book_att = request.form['book_att']
     db_books = db.get_books(book_att)
     table_data = sf.book_list(db_books)
     return render_template("booksearch.html", data = table_data)
 
-@app.route("/param/<val>", methods=['POST', 'GET'])
+@app.route("/param/<val>", methods=['POST', 'GET'])#add books to favs
 def param(val):
-    print(val)
+    #print(val)
     global session_id
     #db.num_of_favs()
     if session_id == -1:
         return '', 204
     else:
-        db.add_fav_book(val, str(session_id))
+        db.addtofavs(str(session_id), val)
         return '', 204
     
 @app.route("/auth_param/<val>", methods=['POST', 'GET'])
@@ -101,17 +102,18 @@ def auth_param(val):
 
 @app.route("/user_profile_param/<val>", methods=['POST', 'GET'])#new
 def user_profile_param(val):
-    return render_template("public_profile.html", data = val)
+    #print(db.get_username(val))
+    return render_template("public_profile.html", data = db.get_username(val))
 
 @app.route("/goback", methods=['POST', 'GET'])
 def goback():
     global session_id
-    print(session_id)
+    #print(session_id)
     if session_id == -1:
         print(session_id)
         return render_template("index.html")
     elif session_id != -1:
-        print("true")
+        #print("true")
         out = '<a href="">asda</a>'
         if len(db.my_fav(str(session_id))) != 0:
             return render_template("home.html", data = out, data2 = session_id, data3 = db.my_fav(str(session_id))[0][0], data4 = db.my_fav(str(session_id))[0][1])
