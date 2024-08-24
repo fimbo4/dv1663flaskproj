@@ -37,8 +37,10 @@ def login():
     profile_rend()
     out = '<a href="">asda</a>'
     #print(db.my_fav(str(session_id)))
-    if len(db.my_fav(str(session_id))) != 0:
-        return render_template("home.html", data = out, data2 = session_id, data3 = db.my_fav(str(session_id))[0][0], data4 = db.my_fav(str(session_id))[0][1])
+    db_books = db.get_users_fav_books(str(session_id))
+    if len(db.get_users_fav_books(str(session_id))) != 0:
+        table_data = sf.profile_display_favorites(db_books)
+        return render_template("home.html", data = out, data2 = session_id, data3 = table_data)
     else:
         return render_template("home.html", data = out, data2 = session_id)
 
@@ -103,7 +105,24 @@ def auth_param(val):
 @app.route("/user_profile_param/<val>", methods=['POST', 'GET'])#new
 def user_profile_param(val):
     #print(db.get_username(val))
-    return render_template("public_profile.html", data = db.get_username(val))
+    global session_id
+    db_books = db.get_users_fav_books(val)
+    table_data = sf.profile_display_favorites(db_books)
+    if session_id == -1:
+        return render_template("public_profile.html", data = db.get_username(val), data2 = table_data)
+    else:
+        return render_template("public_profile.html", data = db.get_username(val), data2 = table_data, data3 = '<form method="POST" action="/books_in_common/' + val + '"><button type="submit">Find books in common</button></form>')
+    
+@app.route("/books_in_common/<val>", methods=['POST'])
+def books_in_common(val):
+    global session_id
+    db_books = db.get_books_common(session_id, val)
+    table_data = sf.display_books_common(db_books)
+    if len(db_books) > 0:
+        return render_template("books_in_common.html", data = table_data)
+    else:
+        return render_template("books_in_common.html")
+
 
 @app.route("/goback", methods=['POST', 'GET'])
 def goback():
@@ -115,8 +134,10 @@ def goback():
     elif session_id != -1:
         #print("true")
         out = '<a href="">asda</a>'
-        if len(db.my_fav(str(session_id))) != 0:
-            return render_template("home.html", data = out, data2 = session_id, data3 = db.my_fav(str(session_id))[0][0], data4 = db.my_fav(str(session_id))[0][1])
+        db_books = db.get_users_fav_books(str(session_id))
+        if len(db.get_users_fav_books(str(session_id))) != 0:
+            table_data = sf.profile_display_favorites(db_books)
+            return render_template("home.html", data = out, data2 = session_id, data3 = table_data)
         else:
             return render_template("home.html", data = out, data2 = session_id)
 

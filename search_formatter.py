@@ -18,6 +18,36 @@ def book_list(db_books):#add a label to each <tr> and button within so that they
 
     return book_list
 
+def display_books_common(db_books):
+    book_list = """<table>
+    <tr>
+      <th>Title</th>
+      <th>Author</th>
+      <th>ISBN</th>
+    </tr>
+  """
+    for book in db_books:
+        book_list += "<tr> <td>" + book[0] + "</td>" + "<td>" + book[2] + "</td>"+ "<td>" + book[3] + "</td>" + "</tr>"
+    book_list += """</table>"""
+
+    return book_list
+
+def profile_display_favorites(db_books):
+    book_list = """<table>
+    <tr>
+      <th>Title</th>
+      <th>Author</th>
+      <th>ISBN</th>
+    </tr>
+  """
+    for book in db_books:
+        book_list += "<tr> <td>" + book[0] + "</td>" + "<td>" + book[2] + "</td>"+ "<td>" + book[3] + "</td>" + "</tr>"
+        #print(book)
+        #print()
+    book_list += """</table>"""
+
+    return book_list
+
 def auth_list(db_auths):
     auth_list = """<table>
     <tr>
@@ -28,12 +58,6 @@ def auth_list(db_auths):
     for auth in db_auths:
         auth_list += """<tr><td>""" + str(auth[0]) + """</td><td><form method="POST" action="/auth_param/""" + str(auth[0]) + """">""" + """<button type="submit">Go to author page</button></form></td></tr>"""
     return auth_list
-
-def user_list():
-    pass
-
-def profile_display_favorites():
-    pass
 
 def get_authors_books(auth_info):
     auth_list = """<table>

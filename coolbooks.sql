@@ -138,3 +138,13 @@ SELECT isbn, COUNT(isbn) FROM favbooks group by isbn;
 SELECT * FROM books WHERE isbn = "9292929292";
 
 SELECT * FROM books JOIN favbooks ON books.isbn = favbooks.isbn WHERE favbooks.id = 9;
+
+SELECT id AS id1, isbn AS isbn1 FROM favbooks JOIN favbooks AS booksincommon ON favbooks.isbn = booksincommon.isbn WHERE favbooks.id = 10 AND booksincommon.id = 13;
+
+SELECT * FROM books JOIN (SELECT favbooks.id AS id1, favbooks.isbn AS isbn1 FROM favbooks JOIN favbooks AS booksincommon ON favbooks.isbn = booksincommon.isbn WHERE favbooks.id = 10 AND booksincommon.id = 13) AS fab WHERE books.isbn = fab.isbn1;
+
+SELECT * FROM books JOIN (SELECT favbooks.id AS id1, favbooks.isbn AS isbn1 FROM favbooks JOIN favbooks AS booksincommon
+    ON favbooks.isbn = booksincommon.isbn WHERE favbooks.id = 13 AND booksincommon.id = 10) AS fab WHERE books.isbn = fab.isbn1;
+    
+SELECT * FROM books JOIN (SELECT favbooks.id AS id1, favbooks.isbn AS isbn1 FROM favbooks JOIN favbooks AS booksincommon
+    ON favbooks.isbn = booksincommon.isbn WHERE favbooks.id = 10 AND booksincommon.id = 13) AS fab WHERE books.isbn = fab.isbn1;

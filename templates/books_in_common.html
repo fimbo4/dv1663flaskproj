@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block head %}
+{%endblock%}
+{% block body %}
+<form method="POST" action="/goback"> 
+    <button type="submit">Go back</button> 
+</form> 
+<h1>Books you have in common</h1>
+{{data|safe}}
+{%endblock%}

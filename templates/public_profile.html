@@ -1,7 +1,17 @@
+{% extends "base.html" %}
+{% block head %}
+{%endblock%}
+
+
+{% block body %}
 <div class="return">
     <form method="POST" action="/goback"> 
         <button type="submit">Go back</button> 
     </form> 
 </div>
 <h1>User: {{data|safe}}</h1>
+{{data3|safe}}
 <h1>Favorite books: </h1>
+
+{{data2|safe}}
+{%endblock%}

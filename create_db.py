@@ -50,7 +50,8 @@ def addBook(title, author, isbn):
     my_cursor.execute(query)
     mydb.commit()
 
-def get_books(search_input):#change this into a procedure call
+def get_books(search_input):
+    #gets the book information when searching the sites library
     query = """SELECT * FROM books LEFT JOIN (SELECT Books.title, COUNT(favbooks.isbn) as numberOfFavourites
     FROM Books
     CROSS JOIN favbooks
@@ -76,13 +77,28 @@ def addtofavs(uid, isbn):
 def get_book_info(isbn):
     query = ""
 
+def get_books_common(session_id, val):
+    query = """SELECT * FROM books JOIN (SELECT favbooks.id AS id1, favbooks.isbn AS isbn1 FROM favbooks JOIN favbooks AS booksincommon
+    ON favbooks.isbn = booksincommon.isbn WHERE favbooks.id = """ + str(session_id) + " AND booksincommon.id = " + str(val) + ") AS fab WHERE books.isbn = fab.isbn1;"
+    print(query)
+    temp_cursor = mydb.cursor(buffered=True)
+    temp_cursor.execute(query)
+    mydb.commit()
+    out_data = []
+    for book in temp_cursor:
+        print(book)
+        out_data.append(book)
+    return out_data
+
 def get_users_fav_books(uid):
     query = "SELECT * FROM books JOIN favbooks ON books.isbn = favbooks.isbn WHERE favbooks.id = " + uid + ";"
     my_cursor.execute(query)
     out_data = []
     for book in my_cursor:
+        print(book)
         out_data.append(book)
     return out_data
+
 
 
 def book_count(isbn):
