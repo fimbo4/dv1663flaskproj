@@ -42,6 +42,9 @@ values
     ("JK. Rowling",'e'),
     ("Of Mice and Men",'f');
 
+COME UP WITH A FUNCTION AND A TRIGGER
+Increase number of published books for author when new book is added?
+
 DELIMITER $$
 CREATE TRIGGER newFavBook
 AFTER UPDATE 
@@ -67,6 +70,16 @@ END$$
 DELIMITER ;
 
 INSERT INTO accounts(userName, passwrd) 
+SELECT 'acc35', 'pass1'
+WHERE 'acc35' NOT IN (SELECT userName FROM accounts);
+
+INSERT INTO favbooks(id, isbn) SELECT 70, '0000000';
+
+SELECT * FROM accounts;
+SELECT * FROM author;
+SELECT * FROM books;
+
+INSERT INTO accounts(userName, passwrd) 
 SELECT 'uname', 'pass' 
 WHERE 'uname' NOT IN (SELECT userName FROM accounts);
 
@@ -85,6 +98,13 @@ CROSS JOIN accounts
 WHERE Books.title = accounts.favouriteBook
 GROUP BY books.title) AS favbooks ON favbooks.title = books.title WHERE books.title LIKE '%%' OR books.authorName LIKE '%%' OR books.isbn LIKE '%%';
 
+SELECT favouriteBook, books.authorName FROM books JOIN accounts ON books.authorName = favouriteBook WHERE accounts.id = 60 ;
+SELECT favouriteBook, books.authorName FROM accounts JOIN books ON accounts.favouriteBook = books.title WHERE id = 60;
+
+SELECT authorName FROM author WHERE authorName LIKE '%a%';
+
+SELECT * FROM accounts;
+
 DELIMITER $$
 CREATE PROCEDURE addfavbook(IN bookname VARCHAR(255), uid INT)
 BEGIN 
@@ -98,3 +118,33 @@ BEGIN
 INSERT INTO favbooks(id, isbn) VALUES (uid, isbn);
 END $$
 DELIMITER ;
+
+CALL addfavbook('The Way Of Kings', 43);
+
+SELECT * FROM accounts;
+
+SELECT books.title FROM books JOIN author ON books.authorName = author.authorName WHERE author.authorName = 'cormac';
+
+SELECT * FROM favbooks;
+SELECT * FROM books;
+SELECT * FROM accounts;
+
+
+
+CALL addtofavs(1, "0000002");
+SELECT * FROM favbooks;
+SELECT isbn, COUNT(isbn) FROM favbooks group by isbn;
+
+SELECT * FROM books WHERE isbn = "9292929292";
+
+SELECT * FROM books JOIN favbooks ON books.isbn = favbooks.isbn WHERE favbooks.id = 9;
+
+SELECT id AS id1, isbn AS isbn1 FROM favbooks JOIN favbooks AS booksincommon ON favbooks.isbn = booksincommon.isbn WHERE favbooks.id = 10 AND booksincommon.id = 13;
+
+SELECT * FROM books JOIN (SELECT favbooks.id AS id1, favbooks.isbn AS isbn1 FROM favbooks JOIN favbooks AS booksincommon ON favbooks.isbn = booksincommon.isbn WHERE favbooks.id = 10 AND booksincommon.id = 13) AS fab WHERE books.isbn = fab.isbn1;
+
+SELECT * FROM books JOIN (SELECT favbooks.id AS id1, favbooks.isbn AS isbn1 FROM favbooks JOIN favbooks AS booksincommon
+    ON favbooks.isbn = booksincommon.isbn WHERE favbooks.id = 13 AND booksincommon.id = 10) AS fab WHERE books.isbn = fab.isbn1;
+    
+SELECT * FROM books JOIN (SELECT favbooks.id AS id1, favbooks.isbn AS isbn1 FROM favbooks JOIN favbooks AS booksincommon
+    ON favbooks.isbn = booksincommon.isbn WHERE favbooks.id = 10 AND booksincommon.id = 13) AS fab WHERE books.isbn = fab.isbn1;
