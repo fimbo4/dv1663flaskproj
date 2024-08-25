@@ -151,7 +151,7 @@ def search_users(user_info):
 def search_users_common(session_id):
     query = """SELECT DISTINCT fb1.id FROM favbooks as 
     fb1 INNER JOIN favbooks as fb2 ON fb1.isbn = fb2.isbn 
-    WHERE fb1.id != fb2.id  AND fb1.id != """ + str(session_id) + ';'
+    WHERE fb1.id != fb2.id  AND fb2.id = """ + str(session_id) + ';'
     my_cursor.execute(query)
     print(query)
     out_data = []
