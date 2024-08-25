@@ -99,7 +99,13 @@ def get_users_fav_books(uid):
         out_data.append(book)
     return out_data
 
-
+def get_user_common(id):
+    query = "SELECT userName, id FROM accounts WHERE id = " + str(id) + ";"
+    my_cursor.execute(query)
+    out_data = []
+    for user in my_cursor:
+        out_data.append(user)
+    return out_data
 
 def book_count(isbn):
     query = "SELECT COUNT(isbn) FROM favbooks WHERE isbn = '" + isbn + "';"
@@ -137,6 +143,17 @@ def get_auth_info(auth_param):
 def search_users(user_info):
     query = "SELECT userName, FavouriteBook FROM accounts WHERE userName LIKE '%" + user_info + "%';"
     my_cursor.execute(query)
+    out_data = []
+    for user in my_cursor:
+        out_data.append(user)
+    return out_data
+
+def search_users_common(session_id):
+    query = """SELECT DISTINCT fb1.id FROM favbooks as 
+    fb1 INNER JOIN favbooks as fb2 ON fb1.isbn = fb2.isbn 
+    WHERE fb1.id != fb2.id  AND fb1.id != """ + str(session_id) + ';'
+    my_cursor.execute(query)
+    print(query)
     out_data = []
     for user in my_cursor:
         out_data.append(user)

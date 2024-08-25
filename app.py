@@ -160,7 +160,19 @@ def authlist():
 def userlist():
     user_att = request.form['user_att']
     db_users = db.search_user_page(user_att)
+    print(db_users)
     table_data = sf.user_list(db_users)
+    return render_template('searchusers.html', data = table_data)
+
+@app.route('/users_common', methods=['POST', 'GET'])
+def users_common():
+    global session_id
+    db_users = db.search_users_common(session_id)
+    temp = []
+    for user in db_users:
+        h = db.get_user_common(user[0])
+        temp += h
+    table_data = sf.user_list(temp)
     return render_template('searchusers.html', data = table_data)
 
 if __name__ == "__main__":
